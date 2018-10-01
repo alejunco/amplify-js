@@ -153,7 +153,7 @@ export default class StorageClass {
 
         const opt = Object.assign({}, this._options, options);
         const { bucket, region, credentials, level, track } = opt;
-        const { contentType, contentDisposition, cacheControl, expires, metadata } = opt;
+        const { contentType, contentDisposition, cacheControl, expires, metadata, acl } = opt;
         const type = contentType ? contentType : 'binary/octet-stream';
 
         const prefix = this._prefix(opt);
@@ -171,6 +171,7 @@ export default class StorageClass {
         if (contentDisposition) { params.ContentDisposition = contentDisposition; }
         if (expires) { params.Expires = expires; }
         if (metadata) { params.Metadata = metadata; }
+        if (acl) { params.ACL = acl; }
 
         return new Promise<Object>((res, rej) => {
             s3.upload(params, (err, data) => {
